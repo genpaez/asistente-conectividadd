@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.oesia.asistenteconectividad.AsistenteConectividadApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.392 s - in com.oesia.asistenteconectividad.AsistenteConectividadApplicationTests

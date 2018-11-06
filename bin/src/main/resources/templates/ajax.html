@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="makeup.css" /> 
+
+<head>
+    <title>Asistente Conectividad</title>
+    <meta http-equiv="Content-Type" charset="UTF-8">
+
+
+    <link rel="stylesheet" type="text/css"
+          href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+          
+          
+<style>
+body {font-family: Arial;}
+	.form-control{
+    border: 1px solid #000000;
+}
+navbar-brand{
+	
+}
+
+table, td {
+    border: 1px solid black;
+    text-align:center;
+}
+th{
+	border: 1px solid black;
+    text-align:center;
+    color:#660858
+}
+.button {
+  display: inline-block;
+  padding: 15px 15px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #660858;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+.button:hover {background-color: #771D5F}
+.button:active {
+  background-color: #753DAD;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: 1px solid #ccc;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #D9C4D9;
+}
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #E1DCFF;
+}
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+</style>
+
+
+</head>
+<body onload="ajax_cliente();" style="background-color:#EEEDEF;">
+
+       <br><br>
+
+		<nav class="navbar navbar-default" style="background-color: #EBE7EC">
+		    <div  class="container" style="background-color: #EBE7EC">
+		        <div class="navbar-header" id="nav">
+		            <a class="navbar-brand"  href="/index"  style="color:#770e77"> <strong>Asistente Conectividad WAN </strong> </a>
+		        </div>
+		    </div>
+		</nav>
+
+
+<div class="container" style="min-height: 500px">
+
+    <div class="starter-template">
+
+        <div id="feedback"></div>
+
+        <form class="form-horizontal" id="search-form">
+
+            
+           <div class="form-horizontal">
+             <label for="sel1" style="color:#660066"> Cliente </label > 
+             <select class="form-control" id="cliente"  onchange="ajax_ciudad(this.value)" style="background-color:#E1DCFF;">
+             <option> Seleccione un cliente... </option>
+             </select>
+           </div>
+            
+            <div class="form-horizontal">
+             <label for="sel2" style="color:#660066"> Ciudad </label> 
+             <select class="form-control" id="ciudad" onchange="ajax_sede(cliente.value, this.value)" style="background-color:#E1DCFF;">
+             <option> Seleccione una ciudad... </option>
+             </select>
+           </div>
+           
+           <div class="form-horizontal">
+             <label for="sel3" style="color:#660066"> Sede </label> 
+             <select class="form-control" id="sede" onchange="ajax_canal(cliente.value, ciudad.value, this.value)" style="background-color:#E1DCFF;">
+             <option> Seleccione una sede... </option>
+             </select>
+           </div>
+             
+            <div class="form-horizontal">
+             <label for="sel4" style="color:#660066"> Canal </label> 
+             <select class="form-control" id="canal" onchange="ajax_vias(cliente.value, ciudad.value, sede.value, this.value)" style="background-color:#E1DCFF;">
+             <option> Seleccione un canal... </option>
+             </select>
+           </div>
+            
+        </form>
+ 
+        <div id="vias" style="background-color:#D1C5FE;"> 		
+        </div>
+
+       <br></br>
+             
+        <div class="tab">
+  			<button class="tablinks" onclick="openPest(event, 'mpls')">MPLS</button>
+  			<button class="tablinks" onclick="openPest(event, 'router')">Router</button>
+  			<button class="tablinks" onclick="openPest(event, 'ruta')">Ruta</button>
+		</div>
+        
+        
+        <div id="mpls" class="tabcontent">
+        	        <form class="form-horizontal" id="searchmpls">
+               			 	<table class="form-horizontal" style="width:100%">
+  								<tr >
+					   					<th colspan="2">PE</th> 
+					    				<th>Interfaz PE</th>
+					    				<th>VPRN</th>
+									    <th>IP WAN Router</th>
+									    <th>Puerto PE</th> 
+									    <th>Enrutamiento</th>
+				  				</tr>
+				  				<tr>
+					  				    <td id="nombrepe"></td>
+					    				<td id="ippe"></td>
+					    				<td id="ipwanpe"></td>
+					    				<td id="vprn"></td>
+					    				<td id="ipwanrouter"></td>
+					    				<td id="puertope"></td>
+   										<td id="enrutamiento"></td>
+  								</tr>
+							</table>
+							
+                			<p> </p>
+                			
+                			
+                		    <button type="submit" id="bth-pruebasmpls"
+                            class="button">Ejecutar Pruebas 
+                    		</button>
+                    		</form>
+         			
+					<h3>      MPLS      </h3>
+
+       	 <div style="background-color:#050408; color:green" id="mpls_response">Aquí carga la salida de mpls</div>
+
+		</div>
+
+		<div id="router" class="tabcontent">
+		 			<div class="form-group">
+
+               			 	<table class="form-group" style="width:100%">
+  								<tr>
+					   					<th>IP WAN</th> 
+					    				<th>IP LOOPBACK</th>
+				  				</tr>
+				  				<tr>
+					  				    <td id="routerwan"></td>
+					    				<td id="loopback"></td>
+
+  								</tr>
+							</table>
+
+                			<p>  </p>
+                			
+                			<form class="form-horizontal" id="searchrouter">
+                    		<button type="submit" id="bth-pruebasrouter"
+                            class="button">Ejecutar Pruebas
+                    		</button>
+                    		</form>
+         			</div>
+  			<h3>      ROUTER      </h3>
+  			<div id="router_response" style="background-color:#050408;color:green" >Aquí carga la salida de router</div> 
+		</div>
+
+		<div id="ruta" class="tabcontent">
+				 			<div class="form-group">
+				 		<p>  </p>
+               			 <div>
+                    		<button type="submit" id="bth-pruebasruta"
+                            class="button">Ejecutar Pruebas
+                    		</button>
+                		</div>
+         			</div>
+  			<h3>DSLAM, EPIPE, SPOKE</h3>
+  			<div id="ruta_response">
+        	<p><font color="green"  style="background-color:#050408;">Aquí carga la salida de ruta</font></p>
+       		</div>
+		</div>
+        
+        
+    </div>
+
+</div>
+
+<div style="text-align: center">
+    <footer>
+        <strong>
+            © <a href="http://www.oesia.com.co" style="color:#660066">Oesia Networks Colombia</a> 
+        </strong>
+    </footer>
+</div>
+
+<script type="text/javascript"
+        src="webjars/jquery/2.2.4/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
